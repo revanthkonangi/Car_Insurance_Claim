@@ -1,8 +1,8 @@
 database_name: Car_Insurance_claim_1303_v1_UAT
 ds_environment: dev
-sdk_session_id_dev: ef0207d9482d43e191e57fe4758db6f3
-sdk_session_id_uat: 64f8333b22dcbfd20b053385
-sdk_session_id_prod: 64ec92d6117247877965d152
+# sdk_session_id_dev: ef0207d9482d43e191e57fe4758db6f3
+sdk_session_id_uat: ef0207d9482d43e191e57fe4758db6f3
+# sdk_session_id_prod: 64ec92d6117247877965d152
 data_engineering:
   data_engineering_ft:
     features_dbfs_path: dbfs:/FileStore/Car_Insurance_X.csv
