@@ -189,7 +189,8 @@ mlclient.log(operation_type = "register_table",
     env = env,
     batch_size = batch_size,
     quartz_cron_expression = cron_job_schedule,
-    compute_usage_metrics = compute_metrics)
+    compute_usage_metrics = compute_metrics,
+    verbose = True)
 
 # COMMAND ----------
 
