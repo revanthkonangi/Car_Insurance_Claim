@@ -65,7 +65,7 @@ print(f"Existing Cache : {obj_properties}")
 
 # COMMAND ----------
 
-ground_truth_df = spark.read.csv(ground_truth_dbfs_path)
+ground_truth_df = spark.read.csv(ground_truth_dbfs_path,header=True, inferSchema=True)
 
 # COMMAND ----------
 

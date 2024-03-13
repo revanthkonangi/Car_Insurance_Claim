@@ -48,7 +48,7 @@ mlclient.log(operation_type="job_run_add", session_id = sdk_session_id, dbutils 
 
 # COMMAND ----------
 
-features_df = spark.read.csv(features_dbfs_path)
+features_df = spark.read.csv(features_dbfs_path,header=True, inferSchema=True)
 
 # COMMAND ----------
 

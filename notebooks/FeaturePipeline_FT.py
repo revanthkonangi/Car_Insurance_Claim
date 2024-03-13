@@ -70,6 +70,10 @@ features_df = spark.sql(f"SELECT * FROM {db_name}.{features_dbfs_path}")
 
 # COMMAND ----------
 
+features_df
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 import pickle
 
@@ -126,136 +130,120 @@ data = FT_DF.toPandas()
 
 # COMMAND ----------
 
+data
+
+# COMMAND ----------
+
 import pandas as pd
 import numpy as np
-data.Dt_Customer = data.Dt_Customer.apply(lambda x : pd.to_datetime(str(x)))
-data.Dt_Customer.describe()
 
 # COMMAND ----------
 
-data["Age"] = 2021 - pd.to_datetime(data["Year_Birth"], format="%Y").apply(lambda x: x.year)
-data[data["Age"] > 100]
+
+# Assuming df is your DataFrame and cols_to_impute is a list of column names to impute
+cols_to_impute = ['CREDIT_SCORE', 'ANNUAL_MILEAGE']
+
+# Calculate the mean of each column
+means = data[cols_to_impute].mean()
+
+# Impute missing values with the mean for each column
+data[cols_to_impute] = data[cols_to_impute].fillna(means)
 
 # COMMAND ----------
 
-data.drop(data[data["Age"] > 100].index, inplace=True)
+import pandas as pd
+
+# Assuming df is your DataFrame and cols_to_drop is a list of column names to drop
+cols_to_drop = ['POSTAL_CODE']
+
+# Drop the specified columns
+data.drop(columns=cols_to_drop, inplace=True)
+
 
 # COMMAND ----------
 
-# Extracting registration year from the date
-data["Reg_year"] = data["Dt_Customer"].apply(lambda x: x.year)
+from sklearn.preprocessing import MinMaxScaler
 
-# Extracting registration quarter from the date
-data["Reg_quarter"] = data["Dt_Customer"].apply(lambda x: x.quarter)
+# Assuming df is your DataFrame and column_name is the name of the column you want to scale
+column_name = 'ANNUAL_MILEAGE'
 
-# Extracting registration month from the date
-data["Reg_month"] = data["Dt_Customer"].apply(lambda x: x.month)
+# Initialize the MinMaxScaler
+scaler = MinMaxScaler()
 
-# Extracting registration week from the date
-data["Reg_week"] = data["Dt_Customer"].apply(lambda x: x.day // 7)
+# Fit the scaler to the data and transform the specified column
+data[column_name] = scaler.fit_transform(data[[column_name]])
 
-# COMMAND ----------
-
-data.head()
 
 # COMMAND ----------
 
-data["Education"] = data["Education"].replace("2n Cycle", "Master")
+data['DRIVING_EXPERIENCE'].value_counts()
 
 # COMMAND ----------
 
-data["Marital_Status"] = data["Marital_Status"].replace(["YOLO", "Alone", "Absurd"], "Single")
-data["Marital_Status"] = data["Marital_Status"].replace(["Together"], "Married")
+import pandas as pd
+
+# Assuming df is your DataFrame and column_name is the name of the column containing the age ranges
+# Create a dictionary mapping age ranges to numerical values
+age_range_mapping = {
+    '0-9y': 0,
+    '10-19y': 1,
+    '20-29y': 2,
+    '30y+': 3
+}
+
+# Replace the age ranges with the corresponding numerical values
+data['DRIVING_EXPERIENCE'] = data['DRIVING_EXPERIENCE'].replace(age_range_mapping)
 
 # COMMAND ----------
 
-data["Total_Amount_Spent"] = data[
-    [
-        "MntWines",
-        "MntFruits",
-        "MntMeatProducts",
-        "MntFishProducts",
-        "MntSweetProducts",
-        "MntGoldProds",
-    ]
-].sum(axis=1)
+data['AGE'].value_counts()
 
 # COMMAND ----------
 
-data[data["Income"] > 200000]
+import pandas as pd
+
+# Assuming data is your DataFrame and 'AGE' is the name of the column containing the age ranges
+data['AGE'] = data['AGE'].astype(str)
+
+# Create a dictionary mapping age ranges to numerical values
+age_range_mapping = {
+    '16-25': 0,
+    '26-39': 1,
+    '40-64': 2,
+    '65+': 3
+}
+
+# Replace the age ranges with the corresponding numerical values
+data['AGE'] = data['AGE'].replace(age_range_mapping)
+
+# Convert the 'AGE' column to integer type
+data['AGE'] = data['AGE'].astype(int)
+
+
 
 # COMMAND ----------
 
-data.drop(index=data[data.Income > 200000].index, inplace=True)
+data.info()
 
 # COMMAND ----------
 
-data.MntMeatProducts.nlargest(10)
-
-# COMMAND ----------
-
-data[data["MntMeatProducts"] > 1580]
-
-# COMMAND ----------
-
-data["MntMeatProducts"].clip(upper=984, inplace=True)
-
-# COMMAND ----------
-
-data[data["MntSweetProducts"] > 200]
-
-# COMMAND ----------
-
-data["MntSweetProducts"].clip(upper=198, inplace=True)
-
-# COMMAND ----------
-
-data[data["MntGoldProds"] > 250]
-
-# COMMAND ----------
-
-data["MntGoldProds"].clip(upper=250, inplace=True)
-
-# COMMAND ----------
-
-data[data["NumWebPurchases"] > 15]
-
-# COMMAND ----------
-
-data["NumWebPurchases"].clip(upper=11, inplace=True)
-
-# COMMAND ----------
-
-data[data["NumCatalogPurchases"] > 15]
-
-# COMMAND ----------
-
-data["NumCatalogPurchases"].clip(upper=11, inplace=True)
-
-# COMMAND ----------
-
-data.head(2)
-
-# COMMAND ----------
-
-data.drop(
-    columns=[
-        "Year_Birth",
-        "Dt_Customer",
-        "Reg_quarter",
-        "Total_Amount_Spent",
-    ],
-    inplace=True,
-)
-
-# COMMAND ----------
-
-categ = ['Education','Marital_Status']
-
+import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-# Encode Categorical Columns
-le = LabelEncoder()
-data[categ] = data[categ].apply(le.fit_transform)
+
+# Assuming data is your DataFrame and cols_to_encode is a list of column names to label encode
+cols_to_encode = ['GENDER', 'RACE', 'EDUCATION', 'INCOME', 'VEHICLE_YEAR', 'VEHICLE_TYPE']
+
+# Initialize the LabelEncoder
+label_encoder = LabelEncoder()
+
+# Iterate over each column and encode its values
+for col in cols_to_encode:
+    data[col] = label_encoder.fit_transform(data[col])
+
+
+# COMMAND ----------
+
+data.info()
 
 # COMMAND ----------
 
