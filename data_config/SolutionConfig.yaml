@@ -1,21 +1,17 @@
-database_name: Amplify_test_1303_v1
+database_name: Car_Insurance_claim_1303_v1
 ds_environment: dev
-sdk_session_id_dev: 7ace5f5adee74f1ebde8bd4e74ff4c17
+sdk_session_id_dev: 6d20dcace8ab49f7a6178e91836ffcb9
 sdk_session_id_uat: 64f8333b22dcbfd20b053385
 sdk_session_id_prod: 64ec92d6117247877965d152
 data_engineering:
   data_engineering_ft:
-    features_dbfs_path: dbfs:/mnt/mlcore/dev/source/Super_store_data_X_56dafba9d7a54dd7ab2d820d1a87cb46
-    features_table_name: features_table_1303_v1
-    is_scheduled : true
-    batch_size : 100
+    features_dbfs_path: dbfs:/FileStore/Car_Insurance_X.csv
+    features_table_name: features_table_Claim_1303_v1
     primary_keys:
     - Index
   data_engineering_gt:
-    ground_truth_dbfs_path: dbfs:/mnt/mlcore/dev/source/Super_store_data_Y_b944f0603a8e4df3b971640c5f9cd85a
-    ground_truth_table_name:  groundtruth_table_1303_v1
-    is_scheduled : true
-    batch_size : 100
+    ground_truth_dbfs_path: dbfs:/FileStore/Car_Insurance_Y.csv
+    ground_truth_table_name:  groundtruth_table_11303_v1
     primary_keys:
     - Index
 data_prep_deployments:
