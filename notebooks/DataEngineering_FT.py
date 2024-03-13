@@ -48,11 +48,11 @@ mlclient.log(operation_type="job_run_add", session_id = sdk_session_id, dbutils 
 
 # COMMAND ----------
 
-features_df = spark.read.load(features_dbfs_path)
+features_df = spark.read.csv(features_dbfs_path)
 
 # COMMAND ----------
 
-features_df = features_df.drop('date','id','timestamp')
+# features_df = features_df.drop('date','id','timestamp')
 
 # COMMAND ----------
 

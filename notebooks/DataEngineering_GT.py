@@ -65,11 +65,11 @@ print(f"Existing Cache : {obj_properties}")
 
 # COMMAND ----------
 
-ground_truth_df = spark.read.load(ground_truth_dbfs_path)
+ground_truth_df = spark.read.csv(ground_truth_dbfs_path)
 
 # COMMAND ----------
 
-ground_truth_df = ground_truth_df.drop('id','date','timestamp')
+# ground_truth_df = ground_truth_df.drop('id','date','timestamp')
 
 # COMMAND ----------
 
